@@ -1,3 +1,4 @@
+module.exports = (sequelize, DataTypes) => {
 const Review = sequelize.define('Review', {
     content: DataTypes.STRING,
     recipeId: {
