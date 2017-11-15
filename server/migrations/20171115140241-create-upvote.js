@@ -1,6 +1,6 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Upvotes', {
+  up: (queryInterface, Sequelize) =>
+    queryInterface.createTable('Upvotes', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -32,10 +32,8 @@ module.exports = {
           key: 'id',
           as: 'userId',
         }
-      }
+      },
     });
-  },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Upvotes');
-  }
+  down: (queryInterface, Sequelize) =>
+    queryInterface.dropTable('Upvotes'),
 };
