@@ -20,18 +20,13 @@ module.exports = {
         type: Sequelize.INTEGER,
         defaultValue: 0,
       },
-      upvotes: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        defaultValue: 0,
-      },
-      downvotes: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        defaultValue: 0,
-      },
       userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+        model: 'Users',
+        key: 'id',
+        as: 'userId',
+        }
       },
       createdAt: {
         allowNull: false,
