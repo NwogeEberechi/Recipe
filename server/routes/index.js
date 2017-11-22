@@ -6,6 +6,7 @@ module.exports = (app) => {
     message: 'Welcome to the recipes API!',
   }));
 
-  app.post('/api/recipes', recipesController.create);
   app.post('/api/users/signup', usersController.signup);
+  app.post('/api/recipes', recipesController.create);
+  app.put('/api/recipes/:recipeId', recipesController.update);
 };
