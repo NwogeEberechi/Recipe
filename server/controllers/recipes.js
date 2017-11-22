@@ -39,4 +39,27 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
+  destroy(req, res) {
+    return Recipe
+      .find({
+        where:{
+          id: req.params.recipeId,
+          //userId: modify here through authentication to get the part
+          // particular user recipe to be modified
+        },
+      })
+      .then(recipe => {
+        if (!recipe) {
+          return res.status(404).send({
+            message: 'Recipe not found',
+          });
+        }
+
+        return recipe
+          .destroy()
+          .then(() => res.status(204).send())
+          .catch(error => res.status(400).send(error));
+      })
+      .catch(error => res.status(400).send(error));
+  },
 };
