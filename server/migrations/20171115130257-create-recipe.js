@@ -16,16 +16,13 @@ module.exports = {
       direction: {
         type: Sequelize.STRING
       },
-      viewcount: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
-      },
       userId: {
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         references: {
-        model: 'Users',
-        key: 'id',
-        as: 'userId',
+          model: 'Users',
+          key: 'id',
+          as: 'userId',
         }
       },
       createdAt: {

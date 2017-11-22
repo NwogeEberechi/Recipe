@@ -6,10 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     ingredients: DataTypes.STRING,
     direction: DataTypes.STRING,
-    viewCount: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-    },
     userId: {
       type: DataTypes.INTEGER,
       references: {
@@ -17,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id',
         as: 'userId',
       }
-    }
+    },
   });
   Recipe.associate = (models) => {
     Recipe.belongsTo(models.User, {
