@@ -12,4 +12,31 @@ module.exports = {
       .then(recipe => res.status(201).send(recipe))
       .catch(error => res.status(400).send(error));
   },
+  update(req, res) {
+    return Recipe
+      .find({
+        where:{
+          id: req.params.recipeId,
+          //userId: modify here through authentication to get the part
+          // particular user recipe to be modified
+        },
+      })
+      .then(recipe => {
+        if (!recipe) {
+          return res.status(404).send({
+            message: 'Recipe not found',
+          });
+        }
+
+        return recipe
+          .update({
+            name: req.body.name || recipe.name,
+            ingredients: req.body.ingredients || recipe.ingredients,
+            direction: req.body.direction || recipe.direction,
+          })
+          .then(updatedRecipe => res.status(200).send(updatedRecipe))
+          .catch(error => res.status(400).send(error));
+      })
+      .catch(error => res.status(400).send(error));
+  },
 };
