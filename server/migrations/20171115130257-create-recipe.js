@@ -16,6 +16,21 @@ module.exports = {
       direction: {
         type: Sequelize.STRING
       },
+      viewCount: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0,
+      },
+      upvotes: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0,
+      },
+      downvotes: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        defaultValue: 0,
+      },
       userId: {
         type: Sequelize.INTEGER,
         onDelete: 'CASCADE',
