@@ -1,6 +1,7 @@
 const recipesController = require('../controllers').recipes;
 const usersController = require('../controllers').users;
 const reviewsController = require('../controllers').reviews;
+const votescontroller = require('../controllers').votes;
 
 module.exports = (app) => {
   app.get('/api', (req, res) => res.status(200).send({
@@ -12,5 +13,6 @@ module.exports = (app) => {
   app.get('/api/recipes', recipesController.list);
   app.put('/api/recipes/:recipeId', recipesController.update);
   app.post('/api/recipes/:recipeId/reviews', reviewsController.postReview);
+  app.post('/api/recipes/:recipeId/upvote', votescontroller.upvoteRecipe);
   app.delete('/api/recipes/:recipeId', recipesController.destroy);
 };
