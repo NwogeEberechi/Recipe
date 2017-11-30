@@ -40,7 +40,7 @@ module.exports = {
 			});
 
 		Upvote
-			.findOrCreate({ 
+			.findOrInitialize({ 
 				where: { 
 					userId, 
 					recipeId 
@@ -48,19 +48,25 @@ module.exports = {
 			})
 			.spread((upvote, created) => {
 				if (created) {
-					Recipe
+					Upvote
+						.create({
+							recipeId: recipeId,
+							userId: userId
+						}).then(() => {
+							Recipe
 						.findOne({
 							where: {
 								id: recipeId
 							}
 						})
 						.then((recipe) => {
-							recipe.increment('upvotes');
+							recipe.increment('upvotes'); 
 						});
-						return res.status(201).json({
+					});
+					return res.status(201).json({
 							success: true,
 							message: `Recipe with id: ${recipeId} upvoted`
-						});
+					});
 				}
 
 				return res.status(409).json({
