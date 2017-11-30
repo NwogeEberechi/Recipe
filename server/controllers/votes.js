@@ -54,10 +54,10 @@ module.exports = {
 							userId: userId
 						}).then(() => {
 							Recipe
-						.findOne({
-							where: {
-								id: recipeId
-							}
+								.findOne({
+								where: {
+									id: recipeId
+								}
 						})
 						.then((recipe) => {
 							recipe.increment('upvotes'); 
