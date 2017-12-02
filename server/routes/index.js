@@ -15,6 +15,8 @@ module.exports = (app) => {
   
   app.put('/api/recipes/:recipeId', recipesController.update);
   app.post('/api/recipes/:recipeId/reviews', reviewsController.postReview);
+
   app.post('/api/recipes/:recipeId/upvote', votescontroller.upvoteRecipe);
+  app.post('/api/recipes/:recipeId/downvote', votescontroller.downvoteRecipe);
   app.delete('/api/recipes/:recipeId', recipesController.destroy);
 };
