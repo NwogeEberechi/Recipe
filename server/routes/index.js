@@ -9,12 +9,15 @@ module.exports = (app) => {
   }));
 
   app.post('/api/users/signup', usersController.signup);
+  app.get('/api/users/:userId', usersController.getUser);
 
   app.post('/api/recipes', recipesController.create);
   app.get('/api/recipes', recipesController.list);
   
   app.put('/api/recipes/:recipeId', recipesController.update);
+
   app.post('/api/recipes/:recipeId/reviews', reviewsController.postReview);
+  app.get('/api/recipes/:recipeId/reviews', reviewsController.getReview);
   
   app.post('/api/recipes/:recipeId/:vote', votescontroller.voteRecipe);
 
