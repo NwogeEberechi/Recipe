@@ -12,4 +12,21 @@ module.exports = {
 			.catch(error => res.status(400).send(error));
 	},
 
+	getReview(req, res) {
+		const recipeId = req.params.recipeId;
+
+		return Review.findOne(
+			{ where: {recipeId} }
+		)
+		.then(review => {
+			if (review) {
+				return res.status(200).send(review);
+			}
+			return res.status(400).json({
+				success: false,
+				message: `No review for recipe specified`
+			});
+		})
+		.catch(error => res.status(500).send(error));
+	},
 };
