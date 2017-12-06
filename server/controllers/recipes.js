@@ -65,7 +65,7 @@ module.exports = {
       .catch(error => res.status(400).send(error));
   },
 
-  list(req, res) {
+  getAllRecipe(req, res) {
     return Recipe
       .findAll()
       .then(recipes => res.status(200).send(recipes))

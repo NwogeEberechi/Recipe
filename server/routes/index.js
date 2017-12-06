@@ -14,7 +14,7 @@ module.exports = (app) => {
   app.get('/api/users/:userId/recipes', recipesController.getUserRecipe);
 
   app.post('/api/recipes', recipesController.create);
-  app.get('/api/recipes', recipesController.list);
+  app.get('/api/recipes', recipesController.getAllRecipe);
   
   app.put('/api/recipes/:recipeId', recipesController.update);
 
