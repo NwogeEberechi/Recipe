@@ -22,6 +22,7 @@ module.exports = (app) => {
   app.get('/api/recipes/:recipeId/reviews', reviewsController.getReview);
 
   app.post('/api/recipes/:recipeId/favorites', favoritesController.addToFavorite);
+  app.get('/api/recipes/:userId/favorites', favoritesController.getUserFavorite);
 
   app.post('/api/recipes/:recipeId/:vote', votesController.voteRecipe);
 
