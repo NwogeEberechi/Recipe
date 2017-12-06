@@ -1,7 +1,8 @@
 const recipesController = require('../controllers').recipes;
 const usersController = require('../controllers').users;
 const reviewsController = require('../controllers').reviews;
-const votescontroller = require('../controllers').votes;
+const votesController = require('../controllers').votes;
+const favoritesController = require('../controllers').favorites;
 
 module.exports = (app) => {
   app.get('/api', (req, res) => res.status(200).send({
@@ -19,8 +20,10 @@ module.exports = (app) => {
 
   app.post('/api/recipes/:recipeId/reviews', reviewsController.postReview);
   app.get('/api/recipes/:recipeId/reviews', reviewsController.getReview);
-  
-  app.post('/api/recipes/:recipeId/:vote', votescontroller.voteRecipe);
+
+  app.post('/api/recipes/:recipeId/favorites', favoritesController.addToFavorite);
+
+  app.post('/api/recipes/:recipeId/:vote', votesController.voteRecipe);
 
   app.delete('/api/recipes/:recipeId', recipesController.destroy);
 };
