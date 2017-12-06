@@ -79,4 +79,38 @@ module.exports = {
 		}));
 
 	},
+
+	removeFromFavorite(req, res) {
+		const userId = req.body.userId; //use auth
+		const recipeId = req.params.recipeId;
+
+		Favorite.find({ where: {userId, recipeId} })
+		.then(found => {
+			if(found) {
+				Favorite.destroy({
+					where: { userId, recipeId }
+				})
+				.then(() => {
+        			return res.status(200).json({
+          				success: true,
+          				message: `Recipe Removed from Favorites`
+        			});
+				})
+				.catch(error => res.status(501).json({
+					success: false,
+					message: `Unable to remove recipe from favorite`
+				}));
+				return
+			}
+
+			return res.status(404).json({
+				success: false,
+				message: `Recipe not in User favorite`
+			});
+		})
+		.catch(error => res.status(501).json({
+			success: false,
+			message: `Unable to find Recipe`
+		}));
+	},
 };

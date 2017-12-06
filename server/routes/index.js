@@ -23,6 +23,7 @@ module.exports = (app) => {
 
   app.post('/api/recipes/:recipeId/favorites', favoritesController.addToFavorite);
   app.get('/api/recipes/:userId/favorites', favoritesController.getUserFavorite);
+  app.delete('/api/recipes/:recipeId/favorites', favoritesController.removeFromFavorite);
 
   app.post('/api/recipes/:recipeId/:vote', votesController.voteRecipe);
 
