@@ -12,6 +12,7 @@ module.exports = {
       .then(recipe => res.status(201).send(recipe))
       .catch(error => res.status(400).send(error));
   },
+
   update(req, res) {
     return Recipe
       .find({
@@ -39,12 +40,13 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
+
   destroy(req, res) {
     return Recipe
       .find({
         where:{
           id: req.params.recipeId,
-          //userId: modify here through authentication to get the part
+          //userId: modify here through authentication to get the
           // particular user recipe to be modified
         },
       })
@@ -62,10 +64,37 @@ module.exports = {
       })
       .catch(error => res.status(400).send(error));
   },
+
   list(req, res) {
     return Recipe
       .findAll()
       .then(recipes => res.status(200).send(recipes))
       .catch(error => res.status(400).send(error));
+  },
+
+  getUserRecipe(req, res) {
+    const userId = req.params.userId // use auth
+
+    Recipe.findAll(
+      { where: {userId} }
+    )
+    .then(recipes => {
+      if (recipes.length !== 0) {
+        return res.status(201).json({
+          success: true,
+          message: `User Recipes Found`,
+          recipes
+        });
+        return this;
+      }
+      return res.status(404).json({
+        success: false,
+        message: `No User stored Recipe found`
+      });
+    })
+    .catch(error => res.status(501).json({
+      success: false,
+      message: `Unable to Get User Recipes`
+    }));
   },
 };
