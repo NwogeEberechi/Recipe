@@ -1,79 +1,101 @@
-const Upvote = require('../models').Upvote;
-const Downvote = require('../models').Downvote;
-const Recipe = require('../models').Recipe;
+import models from '../models';
+
+const Recipe = models.Recipe;
 
 module.exports = {
-	upvoteRecipe(req, res) {
-		const recipeId = req.params.recipeId;
-		const userId = req.body.userId;
+  upvoteRecipe(req, res) {
+    const id = req.params.recipeId;
+    const userId = req.body.userId;
 
-		//check if the user already downvoted the same recipe
-		Downvote
-			.findOne({
-				attributes: ['id'],
-				where: {
-					recipeId,
-					userId
-				}
-			})
-			.then((downvote) => {
-				if (downvote) {
-					downvote
-						.destroy({
-							where: {
-								recipeId,
-								userId
-							}
-						})
-						.then(() => {
-							Recipe
-								.findOne({
-									where: {
-										id: recipeId
-									}
-								})
-								.then((recipe) => {
-									recipe.decrement('downvotes');
-								});
-						});
-				}
-			});
+    Recipe.findById(id)
+      .then((recipe) => {
+        if (recipe) {
+          const upvotes = recipe.upvotes;
+          const downvotes = recipe.downvotes;
+          if (downvotes.includes(userId)) {
+            const index = downvotes.indexOf(userId);
+            downvotes.splice(index, 1);
+          }
+          if (upvotes.includes(userId)) {
+            return res.status(409).json({
+              success: false,
+              message: `Recipe with id: ${id} already upvoted by you`
+            });
+          }
+          upvotes.push(userId);
+          Recipe.update({ upvotes, downvotes }, { where: { id } })
+            .then(result =>
+              res.status(201).json({
+                success: true,
+                message: `Recipe with id: ${id} upvoted`
+              }))
+            .catch(error =>
+              res.status(500).json({
+                Success: false,
+                message: `We were unable to register your vote 
+                for Recipe with id: ${id}, please try again`
+              }));
+          return;
+        }
+        return res.status(400).json({
+          success: false,
+          message: `Recipe with id: ${id} does not exist`
+        });
+      })
+      .catch(error =>
+        res.status(500).json({
+          Success: false,
+          message: `We were unable to register your vote 
+          for Recipe with id: ${id}, please try again`
+        }));
+  },
 
-		Upvote
-			.findOrInitialize({ 
-				where: { 
-					userId, 
-					recipeId 
-				} 
-			})
-			.spread((upvote, created) => {
-				if (created) {
-					Upvote
-						.create({
-							recipeId: recipeId,
-							userId: userId
-						}).then(() => {
-							Recipe
-								.findOne({
-								where: {
-									id: recipeId
-								}
-						})
-						.then((recipe) => {
-							recipe.increment('upvotes'); 
-						});
-					});
-					return res.status(201).json({
-							success: true,
-							message: `Recipe with id: ${recipeId} upvoted`
-					});
-				}
+  downvoteRecipe(req, res) {
+    const id = req.params.recipeId;
+    const userId = req.body.userId;
 
-				return res.status(409).json({
-					success: false,
-					message: `Recipe with id: ${recipeId} already upvoted by you`
-				});
-			})
-			.catch(error => res.status(400).send(error));
-	},
+    Recipe.findById(id)
+      .then((recipe) => {
+        if (recipe) {
+          const upvotes = recipe.upvotes;
+          const downvotes = recipe.downvotes;
+          if (upvotes.includes(userId)) {
+            const index = upvotes.indexOf(userId);
+            upvotes.splice(index, 1);
+          }
+          if (downvotes.includes(userId)) {
+            return res.status(409).json({
+              success: false,
+              message: `Recipe with id: ${id} already downvoted by you`
+            });
+          }
+
+          downvotes.push(userId);
+          Recipe.update({ upvotes, downvotes }, { where: { id } })
+            .then(result =>
+              res.status(201).json({
+                success: true,
+                message: `Recipe with id: ${id} downvoted`
+              }))
+            .catch(error =>
+              res.status(500).json({
+                Success: false,
+                message: `We were unable to register your vote 
+                for Recipe with id: ${id}, please try again`
+              }));
+          return;
+        }
+        return res.status(400).json({
+          success: false,
+          message: `Recipe with id: ${id} does not exist`
+        });
+      })
+      .catch(error =>
+        res.status(500).json({
+          Success: false,
+          message: `We were unable to register your vote 
+          for Recipe with id: ${id}, please try again`
+        }));
+  },
+
 };

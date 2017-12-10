@@ -11,14 +11,15 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: 0,
     },
     upvotes: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
-      defaultValue:0,
+      defaultValue: [],
     },
     downvotes: {
-      type: DataTypes.INTEGER,
+      // use array filed since we are interest in single items
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
-      defaultValue: 0,
+      defaultValue: [],
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -29,6 +30,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
   });
+
+    //  remove the relationship to the upvotes and
+    // downvotes table since they are not needed
   Recipe.associate = (models) => {
     Recipe.belongsTo(models.User, {
       foreignKey: 'userId',
@@ -37,12 +41,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'recipeId'
     });
     Recipe.hasMany(models.Favorite, {
-      foreignKey: 'recipeId'
-    });
-    Recipe.hasMany(models.Upvote, {
-      foreignKey: 'recipeId'
-    });
-    Recipe.hasMany(models.Downvote, {
       foreignKey: 'recipeId'
     });
   };

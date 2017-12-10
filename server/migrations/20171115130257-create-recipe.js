@@ -22,14 +22,14 @@ module.exports = {
         defaultValue: 0,
       },
       upvotes: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: true,
-        defaultValue: 0,
+        defaultValue: [],
       },
       downvotes: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: true,
-        defaultValue: 0,
+        defaultValue: [],
       },
       userId: {
         type: Sequelize.INTEGER,
