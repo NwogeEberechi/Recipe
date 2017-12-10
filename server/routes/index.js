@@ -1,8 +1,10 @@
-const recipesController = require('../controllers').recipes;
-const usersController = require('../controllers').users;
-const reviewsController = require('../controllers').reviews;
-const votesController = require('../controllers').votes;
-const favoritesController = require('../controllers').favorites;
+import controller from '../controllers';
+
+const recipesController = controller.recipes;
+const usersController = controller.users;
+const reviewsController = controller.reviews;
+const votesController = controller.votes;
+const favController = controller.favorites;
 
 module.exports = (app) => {
   app.get('/api', (req, res) => res.status(200).send({
@@ -15,15 +17,15 @@ module.exports = (app) => {
 
   app.post('/api/recipes', recipesController.create);
   app.get('/api/recipes', recipesController.getAllRecipe);
-  
+
   app.put('/api/recipes/:recipeId', recipesController.update);
 
   app.post('/api/recipes/:recipeId/reviews', reviewsController.postReview);
   app.get('/api/recipes/:recipeId/reviews', reviewsController.getReview);
 
-  app.post('/api/recipes/:recipeId/favorites', favoritesController.addToFavorite);
-  app.get('/api/recipes/:userId/favorites', favoritesController.getUserFavorite);
-  app.delete('/api/recipes/:recipeId/favorites', favoritesController.removeFromFavorite);
+  app.post('/api/recipes/:recipeId/favorites', favController.addToFavorite);
+  app.get('/api/recipes/:userId/favorites', favController.getUserFavorite);
+  app.delete('/api/recipes/:recipeId/favorites', favController.removeFromFav);
 
   app.post('/api/recipes/:recipeId/:vote', votesController.voteRecipe);
 

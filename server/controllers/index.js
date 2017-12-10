@@ -1,8 +1,8 @@
-const recipes = require('./recipes');
-const users = require('./users');
-const reviews = require('./reviews');
-const votes = require('./voterecipe');
-const favorites = require('./favorites');
+import recipes from './recipes';
+import users from './users';
+import reviews from './reviews';
+import votes from './voterecipe';
+import favorites from './favorites';
 
 module.exports = {
   recipes,

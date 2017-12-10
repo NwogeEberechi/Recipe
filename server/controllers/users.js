@@ -1,4 +1,6 @@
-const User = require('../models').User;
+import models from '../models';
+
+const User = models.User;
 
 module.exports = {
   signup(req, res) {
@@ -17,17 +19,17 @@ module.exports = {
     const userId = req.params.userId;
 
     return User.findById(userId)
-    .then(user => {
-      if(user) {
-        res.status(200).json({
-          user
-        })
-      }
-      return res.status(400).json({
-        success: false,
-        message: `User not found`
-      });
-    })
-    .catch(error => res.status(500).send(error));
+      .then((user) => {
+        if (user) {
+          res.status(200).json({
+            user
+          });
+        }
+        return res.status(400).json({
+          success: false,
+          message: 'User not found'
+        });
+      })
+      .catch(error => res.status(500).send(error));
   },
 };

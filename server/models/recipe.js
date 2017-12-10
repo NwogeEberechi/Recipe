@@ -16,7 +16,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: [],
     },
     downvotes: {
-      type: DataTypes.ARRAY(DataTypes.STRING), // use array filed since we are interest in single items
+      // use array filed since we are interest in single items
+      type: DataTypes.ARRAY(DataTypes.STRING),
       allowNull: true,
       defaultValue: [],
     },
@@ -29,8 +30,9 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
   });
-  
-  //  remove the relationship to the upvotes and downvotes table since they are not needed
+
+    //  remove the relationship to the upvotes and
+    // downvotes table since they are not needed
   Recipe.associate = (models) => {
     Recipe.belongsTo(models.User, {
       foreignKey: 'userId',
