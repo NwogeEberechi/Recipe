@@ -1,4 +1,5 @@
 const Recipe = require('../models').Recipe;
+const Search = require('./search');
 
 module.exports = {
   create(req, res) {
@@ -66,10 +67,18 @@ module.exports = {
   },
 
   getAllRecipe(req, res) {
+    if(req.query.ingredients) {
+      return Search.searchByIngredients(req, res);
+    } else if (req.query.search) {
+      return Search.searchAll(req, res);
+    }else if (req.query.sort === 'upvotes' && req.query.order === 'des') {
+      return Search.mostUpvotes(req, res);
+    }else {
     return Recipe
       .findAll()
       .then(recipes => res.status(200).send(recipes))
       .catch(error => res.status(400).send(error));
+    }
   },
 
   getUserRecipe(req, res) {

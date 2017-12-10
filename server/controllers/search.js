@@ -85,9 +85,36 @@ module.exports = {
   			});
   		});
   	})
-  	.catch(error => res.status(501).json({
+  	.catch(error => res.status(500).json({
   		success: false,
   		message: `unable to search`
+  	}));
+  },
+
+  mostUpvotes(req, res) {
+  	Recipe.findAll({
+  		order: [
+  			['upvotes', 'DESC']
+  		]
+  	})
+  	.then(recipe => {
+  		if (recipe.length !==0) {
+  			return res.status(200).json({
+  				success: true,
+  				message: `Recipes found`,
+  				recipe
+  			});
+  		}
+
+  		return res.status(404).json({
+  			success: true,
+  			message: `Rcipes not found`
+  		});
+
+  	})
+  	.catch(error => res.status(500).json({
+  		success: false,
+  		message: `Unable to find recipe`
   	}));
   },
 };
